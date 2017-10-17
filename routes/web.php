@@ -15,9 +15,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/admin/anggota/carianggota', 'AnggotaController@search');
+Route::resource('/admin/anggota', 'AnggotaController');
 
 Route::resource('/admin/simpanan', 'SimpananController');
-Route::resource('/admin/anggota', 'AnggotaController');
+
 Route::resource('/admin/angsuran', 'AngsuranController');
 Route::resource('/admin/kategoripinjaman', 'KategoriController');
 Route::resource('/admin/pinjaman', 'PinjamanController');
