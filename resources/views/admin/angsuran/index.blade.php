@@ -5,16 +5,75 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
+                {!! Form::open(['method'=>'GET','url'=>'/admin/angsuran/cariangsuran','role'=>'search']) !!}
+                    <div class="input-group custom-search-from">
+                        <input type="text" class="form-control" name="search" placeholder="Search...">
+                        <span class="input-group-btn">
+                            <span class="input-group-btn">
+                            <button class="btn btn-default" type="submit"><i class="fa fa-search"></i> Cari</button>
+                        </span>
+                    </span>
+                </div>
+                    {!! Form::close() !!}
+            </div>
+<a class="btn btn-success" href="/admin/angsuran/laporan/excel">EXCEL</a>
+            <div class="panel panel-default">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Kategori Pinjaman</th>
+                            <th>Nama Anggota</th>
+                            <th>Tanggal Pembayaran</th>
+                            <th>Angsuran Ke</th>
+                            <th>Besar Angsuran</th>
+                            <th>ket</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                       @foreach($Angsuran as $dataangsuran)
+                        <tr>
+                            <td>{{ $dataangsuran -> kategori -> nama_pinjaman }}</td>
+                            <td>{{ $dataangsuran -> anggota-> nama }}</td>
+                            <td>{{ $dataangsuran -> tmp_pembayaran }}/{{ $dataangsuran -> tgl_pembayaran }}</td>
+                            <td>{{ $dataangsuran -> angsuran_ke}}</td>
+                            <td>{{ $dataangsuran -> besar_angsuran}}</td>
+                            <td>{{ $dataangsuran -> ket }}</td>
+                             <td>
+                                <a type="button" class="btn btn-primary" href="/admin/angsuran/{{$dataangsuran->id}}/edit"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
+                            </td>
+                            <td>
+                                <form action="/admin/angsuran/{{$dataangsuran->id}}" method="post">
+                                    <input type="hidden" name="_method" value="delete">
+                                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                    <button type="submit" name="name" value="delete" class="btn btn-danger">
+                                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                                    </button>
+                                </form>
+                                
+                            </td>
+                        </tr>
+                     @endforeach
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="panel panel-default">
                 <div class="panel-heading">Dashboard</div>
 
                 <div class="panel-body">
                     <form class="form-horizontal" method="POST" action="/admin/angsuran">
 
                         <div class="form-group{{ $errors->has('kategori_id') ? ' has-error' : '' }}">
-                            <label class="col-md-4 control-label">Id Kategori</label>
+                            <label class="col-md-4 control-label">Kategori Pinjaman</label>
 
                             <div class="col-md-6">
-                                <input type="text" class="form-control" name="kategori_id" required autofocus>
+
+                                <select name="kategori_id" class="form-control">
+                                    @foreach($Kategori as $datakategori)
+                                    <option value="{{ $datakategori->id }}">{{ $datakategori->nama_pinjaman }}</option>
+                                    @endforeach
+                                </select>
 
                                 @if ($errors->has('kategori_id'))
                                     <span class="help-block">
@@ -25,10 +84,15 @@
                         </div>
 
                         <div class="form-group{{ $errors->has('anggota_id') ? ' has-error' : '' }}">
-                            <label class="col-md-4 control-label">Id Anggota</label>
+                            <label class="col-md-4 control-label">Nama Anggota</label>
 
                             <div class="col-md-6">
-                                <input type="text" class="form-control" name="anggota_id" required>
+
+                                <select name="anggota_id" class="form-control">
+                                    @foreach($Anggota as $dataanggota)
+                                    <option value="{{ $dataanggota->id }}">{{ $dataanggota->nama }}</option>
+                                    @endforeach
+                                </select>
 
                                 @if ($errors->has('anggota_id'))
                                     <span class="help-block">
@@ -105,51 +169,8 @@
                         </div>
                     </form>
                 </div>
-
-
-
             </div>
         </div>
-                        <div class="panel panel-default">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Id Kategori</th>
-                            <th>Id Anggota</th>
-                            <th>Tanggal Pembayaran</th>
-                            <th>Angsuran Ke</th>
-                            <th>Besar Angsuran</th>
-                            <th>ket</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                       @foreach($Angsuran as $dataangsuran)
-                        <tr>
-                            <td>{{ $dataangsuran -> kategori_id }}</td>
-                            <td>{{ $dataangsuran -> anggota_id }}</td>
-                            <td>{{ $dataangsuran -> tmp_pembayaran }}/{{ $dataangsuran -> tgl_pembayaran }}</td>
-                            <td>{{ $dataangsuran -> angsuran_ke}}</td>
-                            <td>{{ $dataangsuran -> besar_angsuran}}</td>
-                            <td>{{ $dataangsuran -> ket }}</td>
-                             <td>
-                                <a type="button" class="btn btn-primary" href="/admin/angsuran/{{$dataangsuran->id}}/edit"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
-                            </td>
-                            <td>
-                                <form action="/admin/angsuran/{{$dataangsuran->id}}" method="post">
-                                    <input type="hidden" name="_method" value="delete">
-                                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                    <button type="submit" name="name" value="delete" class="btn btn-danger">
-                                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-                                    </button>
-                                </form>
-                                
-                            </td>
-                        </tr>
-                     @endforeach
-                    </tbody>
-                </table>
-            </div>
     </div>
 </div>
 @endsection
