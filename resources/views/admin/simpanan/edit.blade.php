@@ -5,7 +5,7 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <div class="panel-heading">Dashboard</div>
+                <div class="panel-heading">Simpanan Sodara <b>{{$Simpanan->anggota->nama}}</b></div>
 
                 <div class="panel-body">
                     <form class="form-horizontal" method="POST" action="/admin/simpanan/{{$Simpanan->id}}">
@@ -28,7 +28,11 @@
                             <label class="col-md-4 control-label">Nama Anggota</label>
 
                             <div class="col-md-6">
-                                <input type="text" class="form-control" name="anggota_id" value="{{$Simpanan->anggota_id}}">
+                                <select name="anggota_id" class="form-control">
+                                    @foreach($Anggota as $dataanggota)
+                                     <option value="{{$dataanggota->id}}">{{$dataanggota->nama}}</option>
+                                    @endforeach
+                                </select>
 
                                 @if ($errors->has('anggota_id'))
                                     <span class="help-block">
@@ -37,6 +41,7 @@
                                 @endif
                             </div>
                         </div>
+
 
                         <div class="form-group{{ $errors->has('tgl_simpanan') ? ' has-error' : '' }}">
                             <label class="col-md-4 control-label">Tgl Simpanan</label>
