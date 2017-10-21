@@ -11,10 +11,15 @@
                     <form class="form-horizontal" method="POST" action="/admin/angsuran/{{$Angsuran->id}}">
 
                         <div class="form-group{{ $errors->has('kategori_id') ? ' has-error' : '' }}">
-                            <label class="col-md-4 control-label">Id Kategori</label>
+                            <label class="col-md-4 control-label">Kategori Pinjaman</label>
 
                             <div class="col-md-6">
-                                <input type="text" class="form-control" name="kategori_id" value="{{$Angsuran->kategori_id}}" required autofocus>
+
+                                <select name="kategori_id" class="form-control">
+                                    @foreach($Kategori as $datakategori)
+                                    <option value="{{ $datakategori->id }}">{{ $datakategori->nama_pinjaman }}</option>
+                                    @endforeach
+                                </select>
 
                                 @if ($errors->has('kategori_id'))
                                     <span class="help-block">
@@ -25,10 +30,15 @@
                         </div>
 
                         <div class="form-group{{ $errors->has('anggota_id') ? ' has-error' : '' }}">
-                            <label class="col-md-4 control-label">Id Anggota</label>
+                            <label class="col-md-4 control-label">Nama Anggota</label>
 
                             <div class="col-md-6">
-                                <input type="text" class="form-control" name="anggota_id" value="{{$Angsuran->anggota_id}}" required>
+
+                                <select name="anggota_id" class="form-control">
+                                    @foreach($Anggota as $dataanggota)
+                                    <option value="{{ $dataanggota->id }}">{{ $dataanggota->nama }}</option>
+                                    @endforeach
+                                </select>
 
                                 @if ($errors->has('anggota_id'))
                                     <span class="help-block">
