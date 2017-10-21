@@ -5,6 +5,56 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
+                {!! Form::open(['method'=>'GET','url'=>'/admin/simpanan/carisimpanan','role'=>'search']) !!}
+                    <div class="input-group custom-search-from">
+                        <input type="text" class="form-control" name="search" placeholder="Search...">
+                        <span class="input-group-btn">
+                            <span class="input-group-btn">
+                            <button class="btn btn-default" type="submit"><i class="fa fa-search"></i> Cari</button>
+                        </span>
+                    </span>
+                </div>
+                    {!! Form::close() !!}
+            </div>
+            <div class="panel panel-default">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Nama Simpanan</th>
+                            <th>Nama Peyimpan</th>
+                            <th>Tgl di Simpan</th>
+                            <th>Besar Simpanan</th>
+                            <th>Keterangan</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                       @foreach($Simpanan as $datasimpanan)
+                        <tr>
+                            <td>{{ $datasimpanan -> nm_simpanan }}</td>
+                            <td>{{ $datasimpanan -> anggota -> nama }}</td>
+                            <td>{{ $datasimpanan -> tgl_simpanan }}</td>
+                            <td>{{ $datasimpanan -> besar_simpanan }}</td>
+                            <td>{{ $datasimpanan -> ket }}</td>
+                             <td>
+                                <a type="button" class="btn btn-primary" href="/admin/simpanan/{{$datasimpanan->id}}/edit"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
+                            </td>
+                            <td>
+                                <form action="/admin/simpanan/{{$datasimpanan->id}}" method="post">
+                                    <input type="hidden" name="_method" value="delete">
+                                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                    <button type="submit" name="name" value="delete" class="btn btn-danger">
+                                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                                    </button>
+                                </form>
+                                
+                            </td>
+                        </tr>
+                     @endforeach
+                    </tbody>
+                </table>
+            </div>
+            <div class="panel panel-default">
                 <div class="panel-heading">Dashboard</div>
 
                 <div class="panel-body">
@@ -28,7 +78,11 @@
                             <label class="col-md-4 control-label">Nama Anggota</label>
 
                             <div class="col-md-6">
-                                <input type="text" class="form-control" name="anggota_id" required>
+                                <select name="anggota_id" class="form-control">
+                                    @foreach($Anggota as $dataanggota)
+                                     <option value="{{$dataanggota->id}}">{{$dataanggota->nama}}</option>
+                                    @endforeach
+                                </select>
 
                                 @if ($errors->has('anggota_id'))
                                     <span class="help-block">
@@ -90,47 +144,6 @@
                         </div>
                     </form>
                 </div>
-
-
-
-            </div>
-                <div class="panel panel-default">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Nama Simpanan</th>
-                            <th>Nama Peyimpan</th>
-                            <th>Tgl di Simpan</th>
-                            <th>Besar Simpanan</th>
-                            <th>Keterangan</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                       @foreach($Simpanan as $datasimpanan)
-                        <tr>
-                            <td>{{ $datasimpanan -> nm_simpanan }}</td>
-                            <td>{{ $datasimpanan -> anggota_id }}</td>
-                            <td>{{ $datasimpanan -> tgl_simpanan }}</td>
-                            <td>{{ $datasimpanan -> besar_simpanan }}</td>
-                            <td>{{ $datasimpanan -> ket }}</td>
-                             <td>
-                                <a type="button" class="btn btn-primary" href="/admin/simpanan/{{$datasimpanan->id}}/edit"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
-                            </td>
-                            <td>
-                                <form action="/admin/simpanan/{{$datasimpanan->id}}" method="post">
-                                    <input type="hidden" name="_method" value="delete">
-                                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                    <button type="submit" name="name" value="delete" class="btn btn-danger">
-                                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-                                    </button>
-                                </form>
-                                
-                            </td>
-                        </tr>
-                     @endforeach
-                    </tbody>
-                </table>
             </div>
         </div>
     </div>
