@@ -5,6 +5,59 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
+                {!! Form::open(['method'=>'GET','url'=>'/admin/caripetugas','role'=>'search']) !!}
+                    <div class="input-group custom-search-from">
+                        <input type="text" class="form-control" name="search" placeholder="Search...">
+                        <span class="input-group-btn">
+                            <span class="input-group-btn">
+                            <button class="btn btn-default" type="submit"><i class="fa fa-search"></i> Cari</button>
+                        </span>
+                    </span>
+                </div>
+                    {!! Form::close() !!}
+            </div>
+            <a class="btn btn-success" href="/admin/laporan/excel">EXCEL</a>
+
+            <div class="panel panel-default">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Nama Petugas</th>
+                            <th>Alamat</th>
+                            <th>No Telepon</th>
+                            <th>Tempat/Tgl Lahir</th>
+                            <th>Keterangan</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                       @foreach($Petugas as $datapetugas)
+                        <tr>
+                            <td>{{ $datapetugas -> nama }}</td>
+                            <td>{{ $datapetugas -> alamat }}</td>
+                            <td>{{ $datapetugas -> no_telp }}</td>
+                            <td>{{ $datapetugas -> tmp_lhr }}/{{ $datapetugas -> tgl_lhr }}</td>
+                            <td>{{ $datapetugas -> ket }}</td>
+                             <td>
+                                <a type="button" class="btn btn-primary" href="/admin/{{$datapetugas->id}}/edit"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
+                            </td>
+                            <td>
+                                <form action="/admin/{{$datapetugas->id}}" method="post">
+                                    <input type="hidden" name="_method" value="delete">
+                                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                    <button type="submit" name="name" value="delete" class="btn btn-danger">
+                                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                                    </button>
+                                </form>
+                                
+                            </td>
+                        </tr>
+                     @endforeach
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="panel panel-default">
                 <div class="panel-heading">Dashboard</div>
 
                 <div class="panel-body">
@@ -104,47 +157,6 @@
                         </div>
                     </form>
                 </div>
-
-
-
-            </div>
-                <div class="panel panel-default">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Nama Petugas</th>
-                            <th>Alamat</th>
-                            <th>No Telepon</th>
-                            <th>Tempat/Tgl Lahir</th>
-                            <th>Keterangan</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                       @foreach($Petugas as $datapetugas)
-                        <tr>
-                            <td>{{ $datapetugas -> nama }}</td>
-                            <td>{{ $datapetugas -> alamat }}</td>
-                            <td>{{ $datapetugas -> no_telp }}</td>
-                            <td>{{ $datapetugas -> tmp_lhr }}/{{ $datapetugas -> tgl_lhr }}</td>
-                            <td>{{ $datapetugas -> ket }}</td>
-                             <td>
-                                <a type="button" class="btn btn-primary" href="/admin/{{$datapetugas->id}}/edit"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
-                            </td>
-                            <td>
-                                <form action="/admin/{{$datapetugas->id}}" method="post">
-                                    <input type="hidden" name="_method" value="delete">
-                                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                    <button type="submit" name="name" value="delete" class="btn btn-danger">
-                                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-                                    </button>
-                                </form>
-                                
-                            </td>
-                        </tr>
-                     @endforeach
-                    </tbody>
-                </table>
             </div>
         </div>
     </div>
